@@ -8,25 +8,30 @@
         md="8"
       >
         <v-select
-          :items="devices"
+          v-model="selectDevice"
+          :items="this.$store.state.devices"
           label="接続デバイスを選択"
           background-color="#424242"
           hide-details
-          item-text="name"
-          item-value="id"
+          item-text="model"
+          item-value="device"
           no-data-text="利用可能なデバイスが見つかりませんでした"
           solo
           dense
           prepend-icon="mdi-connection"
+          @change="change_currtent_device"
         >
         </v-select>
       </v-col>
+      
 
       <v-col
         md="4"
       >
         <v-btn
-        color="primary"
+          color="primary"
+          @click="refresh_adb()"
+          v-bind:disabled="this.$store.state.isloading"
         >refresh
           <v-icon
             right
@@ -48,10 +53,15 @@
 
         </v-btn>
       </v-col>
+      
     </v-row>
   </v-container>
-
-
+  <v-progress-linear
+    indeterminate
+    color="primary"
+    size="38"
+    v-show="this.$store.state.isloading"
+  ></v-progress-linear>
   <v-tabs
     v-model="tab"
     background-color="#424242"
@@ -60,7 +70,7 @@
     centered
   >
     <v-tab
-      v-for="item in items"
+      v-for="item in this.$store.state.items"
       :key="item.tab"
     >
       {{ item.tab }}
@@ -73,7 +83,7 @@
       v-show="tab === 0"
       transition="fade-transition"
     >
-    ここにコンポーネント(status)
+      <Status/>
     </v-tab-item>
     
     <v-tab-item
@@ -94,60 +104,84 @@
       v-show="tab === 3"
       transition="fade-transition"
     >
+    content4
     </v-tab-item>
     
     <v-tab-item
       v-show="tab === 4"
       transition="fade-transition"
     >
+    content5
     </v-tab-item>
 
     <v-tab-item
       v-show="tab === 5"
       transition="fade-transition"
     >
+    content6
     </v-tab-item>
   </v-tabs-items>
   <v-overlay
-    :absolute="absolute"
-    :value="overlay"
+    :absolute="this.$store.state.absolute"
+    :value="this.$store.state.overlay"
+    opcity="0.9"
   >
     <v-btn
       color="error"
-      @click="overlay = false"
+      @click="hide_overlay"
     >
       コード実行に失敗しました
     </v-btn>
+    <p class="text-center">デバイスが接続されているか確認してください</p>
+    <p class="text-center">REFRESHしてデバイス情報を更新してください</p>
   </v-overlay>
 </v-main>
 </template>
 
 <script>
-var ERROR = "Command execution error"
-var commandProsessor = require('../command');
-var cp = new commandProsessor.Command()
-
+import { mapState } from 'vuex'
+import Status from './Status';
+let vm ={}
   export default {
     name: 'Main',
-
+    created () {
+      vm = this;
+    },
+    components: {
+      Status,
+    },
     data: () => ({
-        absolute: true,
-        overlay: false,
-        devices: [], 
         tab: null,
-        items: [
-          { index: 0, tab: 'status'},
-          { index: 1, tab: 'packages'},
-          { index: 2, tab: 'files'},
-          { index: 3, tab: 'network'},
-          { index: 4, tab: 'remote'},
-          { index: 5, tab: 'config'},
-        ]
+        selectDevice: null,
     }),
-    mounted: function(){
-      if(cp.list_devices() === ERROR){
-        this.overlay = true
+    methods: {
+      hide_overlay(){
+        this.$store.commit("hide_overlay")
+      },
+      change_currtent_device(){
+        this.$store.commit("show_loading")
+        this.$store.dispatch("CHANGE_CURRENT_DEVICE",this.selectDevice)
+      },
+      show_error(){
+        this.$store.commit("show_overlay")
+      },
+      show_loading_component(){
+        this.$store.commit("show_loading")
+      },
+      refresh_adb(){
+        this.selectDevice = null
+        vm.$store.commit("show_loading")
+        vm.$store.dispatch("RESET_ADB")
       }
     },
+    mounted: async function(){
+      this.$store.commit("show_loading")
+      this.$nextTick(() => {
+        this.$store.dispatch("GET_DEVCELIST")
+      })
+    },
+    computed: {
+      ...mapState({})
+    }
   }
 </script>
