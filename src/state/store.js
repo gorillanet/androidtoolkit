@@ -16,6 +16,8 @@ const state = {
     sdkver: "",
     battery: "",
     powerstay: false,
+    ipaddr: "",
+    macaddr: ""
   },
   packages:[],
   items: [

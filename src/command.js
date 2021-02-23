@@ -51,6 +51,11 @@ export class Command {
         var w = await exec(adb, ['-s', devid, 'shell', 'dumpsys', prop])
         return w
     }
+
+    getip = async function(devid){
+        var w = await exec(adb, ['-s', devid, 'shell', 'ip', 'addr', 'show', 'wlan0'])
+        return w
+    }
     
     togglepowerstate = async function(devid, prop){
         var w = await exec(adb, ['-s', devid, 'shell', 'svc', 'power', prop])
@@ -58,7 +63,7 @@ export class Command {
     }
 
     get_packages = async function(devid, prop){
-        var w = await exec(adb, ['-s', devid, 'shell', 'pm', 'list', 'packages'])
+        var w = await exec(adb, ['-s', devid, 'shell', 'pm', 'list', 'packages', '-3'])
         return w
     }
 
@@ -78,6 +83,18 @@ export class Command {
 
     pull_file = async function(devid, path, devpath){
         var w = await exec(adb, ['-s', devid, 'pull', devpath, path])
+        return w
+    }
+    screenshot = async function(devid){
+        var w = await exec(adb, ['-s', devid, 'shell', 'screencap', '-p', '/sdcard/screencapture.png'])
+        return w
+    }
+    screenshot_pull = async function(devid){
+        var w = await exec(adb, ['-s', devid, 'pull', '/sdcard/screencapture.png', '%USERPROFILE%'])
+        return w
+    }
+    screenshot_rm = async function(devid){
+        var w = await exec(adb, ['-s', devid, 'shell', 'rm', '/sdcard/screencapture.png'])
         return w
     }
 }

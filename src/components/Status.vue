@@ -3,24 +3,32 @@
         <v-simple-table>
             <tbody>
                 <tr>
-                    <td width="30%">モデル名</td>
+                    <td width="30%">Model Name</td>
                     <td width="70%">{{this.$store.state.currentDevice.model}}</td>
                 </tr>
                 <tr>
-                    <td>デバイスID</td>
+                    <td>Device ID</td>
                     <td>{{this.$store.state.currentDevice.id}}</td>
                 </tr>
                 <tr>
-                    <td>AndroidOSバージョン</td>
+                    <td>AndroidOS Version</td>
                     <td>{{this.$store.state.currentDevice.osver}}</td>
                 </tr>
                 <tr>
-                    <td>SDKバージョン</td>
+                    <td>SDK Version</td>
                     <td>{{this.$store.state.currentDevice.sdkver}}</td>
                 </tr>
                 <tr>
-                    <td>バッテリーレベル</td>
+                    <td>Battery Level</td>
                     <td>{{this.$store.state.currentDevice.battery}}%<v-progress-linear v-model="this.$store.state.currentDevice.battery"></v-progress-linear></td>
+                </tr>
+                <tr>
+                    <td>WiFi IP Address</td>
+                    <td>{{this.$store.state.currentDevice.ipaddr}}</td>
+                </tr>
+                <tr>
+                    <td>WiFi Mac Address</td>
+                    <td>{{this.$store.state.currentDevice.macaddr}}</td>
                 </tr>
             </tbody>
         </v-simple-table>
@@ -28,6 +36,7 @@
         ></v-divider>
         <v-container>
             <v-btn
+            class="mx-2"
             color="primary"
             @click="reboot_overlay = !reboot_overlay"
             v-bind:disabled="this.$store.getters.isDeviceInactive"
@@ -60,6 +69,18 @@
                 WIRELESS
                 <v-icon dark>
                     mdi-wifi
+                </v-icon>
+            </v-btn>
+            <v-btn
+                class="mx-2"
+                v-bind:disabled="this.$store.getters.isDeviceInactive"
+                dark
+                color="green"
+                @click="screenshot()"
+                >
+                SCREENSHOT
+                <v-icon dark>
+                    mdi-cellphone-screenshot
                 </v-icon>
             </v-btn>
             
@@ -216,6 +237,10 @@ let vm ={}
         },
         launch_scrcpy(){
             vm.$store.dispatch("LAUNCH_SCRCPY")
+        },
+        screenshot(){
+            this.$store.commit("show_loading")
+            vm.$store.dispatch("SCREENSHOT")
         },
     },
     mounted: function(){

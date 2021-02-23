@@ -92,8 +92,10 @@ export default {
         dev.model = await cp.getprop(id, "ro.product.model")
         dev.sdkver = await cp.getprop(id, "ro.build.version.sdk")
         let batt = await cp.getdumpsys(id, "battery")
-        console.log(batt)
         dev.battery = batt.match(/level: (\d*)/i)[1]
+        let ip = await cp.getip(id)
+        dev.ipaddr = ip.match(/(\d*\.\d*\.\d*\.\d*\/\d*)/i)[1]
+        dev.macaddr = ip.match(/([0-9A-Za-z]*:[0-9A-Za-z]*:[0-9A-Za-z]*:[0-9A-Za-z]*:[0-9A-Za-z]*:[0-9A-Za-z]*)/i)[1]
         commit("set_current_device", dev)
         commit("hide_loading")
       } catch (error) {
@@ -140,6 +142,18 @@ export default {
     async PULL_FILE({state, commit}, p){
       try{
         await cp.pull_file(state.currentDevice.id, p[0], p[1])
+        commit("hide_loading")
+      }catch(error){
+        console.error(error)
+        commit("show_overlay")
+      }
+    },
+
+    async SCREENSHOT({state, commit}){
+      try{
+        await cp.screenshot(state.currentDevice.id)
+        await cp.screenshot_pull(state.currentDevice.id)
+        await cp.screenshot_rm(state.currentDevice.id)
         commit("hide_loading")
       }catch(error){
         console.error(error)

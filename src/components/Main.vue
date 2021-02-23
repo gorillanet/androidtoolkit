@@ -104,7 +104,7 @@
       v-show="tab === 3"
       transition="fade-transition"
     >
-    content4
+      <Network/>
     </v-tab-item>
     
     <v-tab-item
@@ -143,6 +143,7 @@ import { mapState } from 'vuex'
 import Status from './Status';
 import Packages from './Packages';
 import File from './File';
+import Network from './Network';
 
 
   export default {
@@ -154,6 +155,7 @@ import File from './File';
       Status,
       Packages,
       File,
+      Network,
     },
     data: () => ({
         tab: null,

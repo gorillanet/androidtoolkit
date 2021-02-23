@@ -28,6 +28,8 @@ export default {
         osver: "",
         sdkver: "",
         battery: "",
+        ipaddr: "",
+        macaddr: "",
         powerstay: false,
       },
       state.packages=[]
