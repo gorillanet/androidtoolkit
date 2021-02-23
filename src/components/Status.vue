@@ -97,12 +97,12 @@
                 <v-slider
                 v-bind:value="this.$store.state.scrcpy['bitrate']"
                 @change = "updScrcpyOptions('bitrate', $event)"
-                label="Transfer bitrate (kbps)"
+                label="Transfer bitrate (Mbps)"
                 hint="Increasing the value will improve the video quality, but more delay and load"
                 persistent-hint
-                max="3000"
-                min="600"
-                step="200"
+                max="10"
+                min="1"
+                step="1"
                 thumb-label
                 ticks
                 ></v-slider>
@@ -188,7 +188,7 @@ let vm ={}
     },
     methods: {
         updScrcpyOptions(key, value){
-            this.$store.commit('updScrcpyOptions', [key, value.toString()])
+            this.$store.commit('updScrcpyOptions', [key, value])
         },
         reboot_device(){
             vm.$store.dispatch("REBOOT_DEVICE")
@@ -215,7 +215,6 @@ let vm ={}
             },3000)
         },
         launch_scrcpy(){
-            console.log(this.$store.state.scrcpy)
             vm.$store.dispatch("LAUNCH_SCRCPY")
         },
     },

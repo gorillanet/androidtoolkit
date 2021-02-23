@@ -11,12 +11,13 @@ const state = {
   isloading: true,
   devices: [],
   currentDevice: {
-    id: null,
-    osver: null,
-    sdkver: null,
-    battery: null,
+    id: "",
+    osver: "",
+    sdkver: "",
+    battery: "",
     powerstay: false,
   },
+  packages:[],
   items: [
     { index: 0, tab: 'status'},
     { index: 1, tab: 'packages'},
@@ -28,7 +29,7 @@ const state = {
   selectDevice: undefined,
   scrcpy: {
     length: 720,
-    bitrate: 1000,
+    bitrate: 2,
     stayawake: false,
     offscreen: false,
   },

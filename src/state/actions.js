@@ -100,5 +100,50 @@ export default {
         console.error(error)
         commit("show_overlay")
       }
+    },
+    
+    async GET_PACKAGES({commit, state}){
+      try {
+        let pkg = await cp.get_packages(state.currentDevice.id)
+        commit("assign_packages", pkg.replace(/package:/g, '').split('\n'))
+        commit("hide_loading")
+      } catch (error) {
+        console.error(error)
+        commit("show_overlay")
+      }
+    },
+
+    async PKG_OPEN_APP({state}, pkg){
+      await cp.pkg_open_app(state.currentDevice.id, pkg)
+    },
+
+    async INSTALL_APK({state, commit}, path){
+      try{
+        await cp.install_apk(state.currentDevice.id, path)
+        commit("hide_loading")
+      }catch(error){
+        console.error(error)
+        commit("show_overlay")
+      }
+    },
+
+    async PUSH_FILE({state, commit}, p){
+      try{
+        await cp.push_file(state.currentDevice.id, p[0], p[1])
+        commit("hide_loading")
+      }catch(error){
+        console.error(error)
+        commit("show_overlay")
+      }
+    },
+
+    async PULL_FILE({state, commit}, p){
+      try{
+        await cp.pull_file(state.currentDevice.id, p[0], p[1])
+        commit("hide_loading")
+      }catch(error){
+        console.error(error)
+        commit("show_overlay")
+      }
     }
 }

@@ -97,7 +97,7 @@
       v-show="tab === 2"
       transition="fade-transition"
     >
-    content3
+      <File/>
     </v-tab-item>
     
     <v-tab-item
@@ -142,16 +142,18 @@
 import { mapState } from 'vuex'
 import Status from './Status';
 import Packages from './Packages';
+import File from './File';
 
-let vm ={}
+
   export default {
     name: 'Main',
     created () {
-      vm = this;
+      
     },
     components: {
       Status,
       Packages,
+      File,
     },
     data: () => ({
         tab: null,
@@ -173,8 +175,8 @@ let vm ={}
       },
       refresh_adb(){
         this.selectDevice = null
-        vm.$store.commit("show_loading")
-        vm.$store.dispatch("RESET_ADB")
+        this.$store.commit("show_loading")
+        this.$store.dispatch("RESET_ADB")
       }
     },
     mounted: async function(){

@@ -10,7 +10,6 @@ export default {
     },
     set_current_device(state, l){
       state.currentDevice = l
-      console.log(state)
     },
     show_loading(state){
       state.isloading = true;
@@ -24,9 +23,24 @@ export default {
     empty_devices(state){
       state.selectDevice= undefined
       state.devices=[]
-      state.currentDevice={}
+      state.currentDevice={
+        id: "",
+        osver: "",
+        sdkver: "",
+        battery: "",
+        powerstay: false,
+      },
+      state.packages=[]
     },
     updScrcpyOptions(state, opt){
       state.scrcpy[opt[0]] = opt[1]
+    },
+
+    assign_packages(state, li){
+      var j = []
+      for (var i=0; i<li.length; i++) {
+          j.push({id: i, pkg: li[i]})
+      }
+      state.packages = j
     }
 }

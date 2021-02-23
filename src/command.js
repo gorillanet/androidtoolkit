@@ -35,7 +35,7 @@ export class Command {
         let stayawake = options['stayawake'] ? '--stay-awake' : ''
         let offscreen = options['offscreen'] ? '--turn-screen-off' : ''
         console.log(options)
-        var w = await exec(scrcpy, ['-s', devid, '--max-size', options['length'], '--bit-rate', options['bitrate']+'K', stayawake, offscreen ])
+        var w = await exec(scrcpy, ['-s', devid, '--max-size', options['length'], '--bit-rate', options['bitrate']+'M', stayawake, offscreen ])
         return w
     }
     killserver = async function(){
@@ -54,6 +54,30 @@ export class Command {
     
     togglepowerstate = async function(devid, prop){
         var w = await exec(adb, ['-s', devid, 'shell', 'svc', 'power', prop])
+        return w
+    }
+
+    get_packages = async function(devid, prop){
+        var w = await exec(adb, ['-s', devid, 'shell', 'pm', 'list', 'packages'])
+        return w
+    }
+
+    pkg_open_app = async function(devid, pkg){
+        var w = await exec(adb, ['-s', devid, 'shell', 'am', 'start', 'packages', '-a', pkg])
+        return w
+    }
+    install_apk = async function(devid, path){
+        var w = await exec(adb, ['-s', devid, 'install', path])
+        return w
+    }
+    
+    push_file = async function(devid, path, devpath){
+        var w = await exec(adb, ['-s', devid, 'push', path, devpath])
+        return w
+    }
+
+    pull_file = async function(devid, path, devpath){
+        var w = await exec(adb, ['-s', devid, 'pull', devpath, path])
         return w
     }
 }
