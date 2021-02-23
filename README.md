@@ -8,17 +8,21 @@ adbの面倒くさいところをマウスポチポチでええ感じにする�
   * WIFI
   * 再起動
 * ステータス一覧
+* パッケージマネージャ
+  * 一覧
+  * install
+* ファイルマネージャ
+  * pull/push
+* リモートコントロール
+  * scrcpy を起動する
 
 #### TODO
 * パッケージマネージャ
-  * 一覧
   * フィルタリング
   * 起動
   * backup
   * pull(base.apk想定)
-  * install
 * ファイルマネージャ
-  * pull/push
   * ファイルマネージャ
 * ネットワーク
   * adb reverse
@@ -27,8 +31,6 @@ adbの面倒くさいところをマウスポチポチでええ感じにする�
   * 機内モード
     * adb shell settings put global airplane_mode_on 1
     * adb shell am broadcast -a android.intent.action.AIRPLANE_MODE
-* リモートコントロール
-  * scrcpy を起動する
 * ADB on the wifi
 * Smart Logcat
 
