@@ -66,7 +66,17 @@
         </v-container>
             <v-divider></v-divider>
         <v-container>
-            <h3>Remote Control</h3>
+            <h3
+                style="display: inline;">
+                Remote Control
+            </h3>
+            <a  style="text-decoration: none;"
+                target="_blank"
+                href="https://github.com/Genymobile/scrcpy">
+                <v-icon>
+                    mdi-help-circle
+                </v-icon>
+            </a>
             <v-form
                 ref="form"
                 lazy-validation
@@ -178,7 +188,6 @@ let vm ={}
     },
     methods: {
         updScrcpyOptions(key, value){
-            console.log(value)
             this.$store.commit('updScrcpyOptions', [key, value.toString()])
         },
         reboot_device(){

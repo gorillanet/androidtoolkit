@@ -36,7 +36,6 @@ export class Command {
         let offscreen = options['offscreen'] ? '--turn-screen-off' : ''
         console.log(options)
         var w = await exec(scrcpy, ['-s', devid, '--max-size', options['length'], '--bit-rate', options['bitrate']+'K', stayawake, offscreen ])
-        console.log(w)
         return w
     }
     killserver = async function(){
