@@ -9,6 +9,7 @@ const exec = util.promisify(window.require('child_process').exec);
 module.exports = async function (cmd, options) {
     let opArr = []
     opArr = options.map(function(e){
+        e = e.toString()
         e.replace('\\', '\\\\').replace('"', '\\"')
         if(e.match(/[\s<>|()&/\\[\]{}'$^;?!:]/g)){
             e = '"' + e + '"'

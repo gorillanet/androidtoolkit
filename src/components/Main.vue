@@ -90,7 +90,7 @@
       v-show="tab === 1"
       transition="fade-transition"
     >
-    content2
+      <Packages/>
     </v-tab-item>
     
     <v-tab-item
@@ -141,6 +141,8 @@
 <script>
 import { mapState } from 'vuex'
 import Status from './Status';
+import Packages from './Packages';
+
 let vm ={}
   export default {
     name: 'Main',
@@ -149,6 +151,7 @@ let vm ={}
     },
     components: {
       Status,
+      Packages,
     },
     data: () => ({
         tab: null,

@@ -1,6 +1,7 @@
 /* eslint no-unused-vars: 0 */
 var exec = require('./exec');
 var adb = "adb";
+var scrcpy = "scrcpy";
 export class Command {
     constructor() {
     }
@@ -28,6 +29,14 @@ export class Command {
     }
     launchapp = async function(devid, pkg){
         var w = await exec(adb, ['-s', devid, 'shell', 'am', 'start', '-a', pkg])
+        return w
+    }
+    launchscrcpy = async function(devid, options){
+        let stayawake = options['stayawake'] ? '--stay-awake' : ''
+        let offscreen = options['offscreen'] ? '--turn-screen-off' : ''
+        console.log(options)
+        var w = await exec(scrcpy, ['-s', devid, '--max-size', options['length'], '--bit-rate', options['bitrate']+'K', stayawake, offscreen ])
+        console.log(w)
         return w
     }
     killserver = async function(){

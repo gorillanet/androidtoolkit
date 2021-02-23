@@ -26,4 +26,8 @@ export default {
       state.devices=[]
       state.currentDevice={}
     },
+    updScrcpyOptions(state, opt){
+      state.scrcpy[opt[0]] = opt[1]
+      console.log(state.scrcpy)
+    }
 }

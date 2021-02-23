@@ -59,18 +59,83 @@
                 >
                 WIRELESS
                 <v-icon dark>
-                    mdi-cellphone-wireless
+                    mdi-wifi
                 </v-icon>
             </v-btn>
-            <v-btn
-                class="mx-2"
-                dark
-                color="error"
-                @click="asyncTest()"
-                >
-                test
-            </v-btn>
             
+        </v-container>
+            <v-divider></v-divider>
+        <v-container>
+            <h3>Remote Control</h3>
+            <v-form
+                ref="form"
+                lazy-validation
+            >
+                <v-slider
+                v-bind:value="this.$store.state.scrcpy['length']"
+                @change = "updScrcpyOptions('length', $event)"
+                label="Vertical length (pixel)"
+                hint="The horizontal length is adjusted according to the vertical length"
+                persistent-hint
+                max="1080"
+                min="580"
+                step="100"
+                thumb-label
+                ticks
+                ></v-slider>
+
+                <v-slider
+                v-bind:value="this.$store.state.scrcpy['bitrate']"
+                @change = "updScrcpyOptions('bitrate', $event)"
+                label="Transfer bitrate (kbps)"
+                hint="Increasing the value will improve the video quality, but more delay and load"
+                persistent-hint
+                max="3000"
+                min="600"
+                step="200"
+                thumb-label
+                ticks
+                ></v-slider>
+                <v-row>
+                    <v-col
+                    cols="4">
+
+                        <v-checkbox
+                        v-bind:value="this.$store.state.scrcpy['stayawake']"
+                        @change = "updScrcpyOptions('stayawake', $event)"
+                        label="Stay awake"
+                        hint="Prevent the device to sleep"
+                        persistent-hint
+                        ></v-checkbox>
+                    </v-col>
+                    <v-col
+                    cols="4">
+                        <v-checkbox
+                        v-bind:value="this.$store.state.scrcpy['offscreen']"
+                        @change = "updScrcpyOptions('offscreen', $event)"
+                        label="Turn off screen"
+                        hint="The device screen off while remote control"
+                        persistent-hint
+                        ></v-checkbox>
+                    </v-col>
+                </v-row>
+            </v-form>
+        </v-container>
+        <v-container>
+
+                <v-btn
+                    class="mx-2"
+                    v-bind:disabled="this.$store.getters.isDeviceInactive"
+                    dark
+                    color="primary"
+                    @click="launch_scrcpy()"
+                    >
+                    REMOTE
+                    <v-icon dark>
+                        mdi-remote
+                    </v-icon>
+                </v-btn>
+
         </v-container>
 
         <v-overlay
@@ -106,10 +171,16 @@ let vm ={}
     created () {
       vm = this;
     },
-    data: () => ({
-        reboot_overlay: false,
-    }),
+    data() {
+        return {
+            reboot_overlay: false,
+        }
+    },
     methods: {
+        updScrcpyOptions(key, value){
+            console.log(value)
+            this.$store.commit('updScrcpyOptions', [key, value.toString()])
+        },
         reboot_device(){
             vm.$store.dispatch("REBOOT_DEVICE")
             .then(()=>{
@@ -133,6 +204,10 @@ let vm ={}
             setTimeout(()=>{
                 vm.$store.commit("hide_loading")
             },3000)
+        },
+        launch_scrcpy(){
+            console.log(this.$store.state.scrcpy)
+            vm.$store.dispatch("LAUNCH_SCRCPY")
         },
     },
     mounted: function(){

@@ -26,6 +26,12 @@ const state = {
     { index: 5, tab: 'config'},
   ],
   selectDevice: undefined,
+  scrcpy: {
+    length: 720,
+    bitrate: 1000,
+    stayawake: false,
+    offscreen: false,
+  },
 }
 
 export default new Vuex.Store({

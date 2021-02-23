@@ -37,6 +37,15 @@ export default {
         commit("show_overlay")
       }
     },
+    async LAUNCH_SCRCPY({commit, state}){
+      try {
+        if(await cp.launchscrcpy(state.currentDevice.id, state.scrcpy)=="Command execution error"){
+          throw "ERROR"
+        }
+      } catch (error) {
+        commit("show_overlay")
+      }
+    },
     async LAUNCH_APP_WIRELESS({commit, state}){
       try {
         if(await cp.launchapp(state.currentDevice.id, "android.settings.WIRELESS_SETTINGS")=="Command execution error"){
