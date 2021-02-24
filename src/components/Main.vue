@@ -164,6 +164,7 @@ import Network from './Network';
     methods: {
       hide_overlay(){
         this.$store.commit("hide_overlay")
+        this.$store.commit("hide_loading")
       },
       change_currtent_device(){
         this.$store.commit("show_loading")

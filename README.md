@@ -15,6 +15,10 @@ adbの面倒くさいところをマウスポチポチでええ感じにする�
   * pull/push
 * リモートコントロール
   * scrcpy を起動する
+* ネットワーク
+  * adb reverse
+  * adb forward
+  * プロキシ設定
 
 #### TODO
 * パッケージマネージャ
@@ -24,10 +28,6 @@ adbの面倒くさいところをマウスポチポチでええ感じにする�
   * pull(base.apk想定)
 * ファイルマネージャ
   * ファイルマネージャ
-* ネットワーク
-  * adb reverse
-  * プロキシ設定
-    * adb shell settings put global http_proxy 192.168.xx.xxx:8888　こんな感じで行けるらしい
   * 機内モード
     * adb shell settings put global airplane_mode_on 1
     * adb shell am broadcast -a android.intent.action.AIRPLANE_MODE

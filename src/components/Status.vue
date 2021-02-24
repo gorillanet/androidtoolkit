@@ -236,6 +236,7 @@ let vm ={}
             },3000)
         },
         launch_scrcpy(){
+            this.$store.commit("show_loading")
             vm.$store.dispatch("LAUNCH_SCRCPY")
         },
         screenshot(){

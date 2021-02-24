@@ -19,6 +19,7 @@ module.exports = async function (cmd, options) {
     opArr.unshift(cmd)
     let fullCommand = opArr.join(' ')
     console.log(fullCommand)
+    //console.log("exec-Start")
     const result= await exec(fullCommand)
         /*
         if ( error instanceof Error || stderr.search("Command failed") || stdout.search("Command failed")) {
@@ -28,6 +29,6 @@ module.exports = async function (cmd, options) {
         }
         
     });*/
-    //console.log(result.toString())
+    //console.log(result)
     return result.toString()
 };

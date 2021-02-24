@@ -42,8 +42,29 @@ export class Command {
         var w = await exec(adb, ['kill-server'])
         return w
     }
+    startserver = async function(){
+        var w = await exec(adb, ['start-server'])
+        return w
+    }
     getprop = async function(devid, prop){
         var w = await exec(adb, ['-s', devid, 'shell', 'getprop', prop])
+        return w
+    }
+
+    getproxystatus = async function(devid){
+        var w = await exec(adb, ['-s', devid, 'shell', 'settings', 'get', 'global', 'http_proxy'])
+        return w
+    }
+    gettcptransfer = async function(devid, style){
+        var w = await exec(adb, ['-s', devid, style, '--list'])
+        return w
+    }
+    remove_tcp_transfer = async function(devid, style, port){
+        var w = await exec(adb, ['-s', devid, style, '--remove', 'tcp:'+port])
+        return w
+    }
+    add_tcp_transfer = async function(devid, style, port1, port2){
+        var w = await exec(adb, ['-s', devid, style, 'tcp:'+port1, 'tcp:'+port2])
         return w
     }
     
@@ -95,6 +116,10 @@ export class Command {
     }
     screenshot_rm = async function(devid){
         var w = await exec(adb, ['-s', devid, 'shell', 'rm', '/sdcard/screencapture.png'])
+        return w
+    }
+    set_proxy = async function(devid, ip, port){
+        var w = await exec(adb, ['-s', devid, 'shell', 'settings', 'put', 'global', 'http_proxy', ip+':'+port])
         return w
     }
 }

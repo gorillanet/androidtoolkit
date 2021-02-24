@@ -17,7 +17,10 @@ const state = {
     battery: "",
     powerstay: false,
     ipaddr: "",
-    macaddr: ""
+    macaddr: "",
+    proxy: "",
+    tcpforward: [],
+    tcpreverse: [],
   },
   packages:[],
   items: [
