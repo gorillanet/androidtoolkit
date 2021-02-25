@@ -1,7 +1,6 @@
-/* eslint no-unused-vars: 0 */
 var exec = require('./exec');
-var adb = "adb";
-var scrcpy = "scrcpy";
+var adb = "adb"
+var scrcpy = "scrcpy"
 export class Command {
     constructor() {
     }
@@ -83,7 +82,7 @@ export class Command {
         return w
     }
 
-    get_packages = async function(devid, prop){
+    get_packages = async function(devid){
         var w = await exec(adb, ['-s', devid, 'shell', 'pm', 'list', 'packages', '-3'])
         return w
     }

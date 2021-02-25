@@ -93,7 +93,8 @@
             </h3>
             <a  style="text-decoration: none;"
                 target="_blank"
-                href="https://github.com/Genymobile/scrcpy">
+                href="https://github.com/Genymobile/scrcpy"
+            >
                 <v-icon>
                     mdi-help-circle
                 </v-icon>
@@ -192,9 +193,14 @@
         </v-overlay>
     </v-container>
 </template>
-
+<style scoped>
+tr > td{
+    height: 38px !important;
+}
+</style>
 <script>
 import { mapState } from 'vuex'
+var { ipcRenderer } = window.require("electron");
 let vm ={}
 
   export default {
@@ -237,11 +243,14 @@ let vm ={}
         },
         launch_scrcpy(){
             this.$store.commit("show_loading")
-            vm.$store.dispatch("LAUNCH_SCRCPY")
+            vm.$store.dispatch("LAUNCH_SCRCPY").then(() =>{
+            })
         },
         screenshot(){
             this.$store.commit("show_loading")
-            vm.$store.dispatch("SCREENSHOT")
+            vm.$store.dispatch("SCREENSHOT").then(() => {
+                ipcRenderer.send("open_screenshot");
+            })
         },
     },
     mounted: function(){

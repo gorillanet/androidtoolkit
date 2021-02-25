@@ -28,8 +28,6 @@ const state = {
     { index: 1, tab: 'packages'},
     { index: 2, tab: 'files'},
     { index: 3, tab: 'network'},
-    { index: 4, tab: 'remote'},
-    { index: 5, tab: 'config'},
   ],
   selectDevice: undefined,
   scrcpy: {

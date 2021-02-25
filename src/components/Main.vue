@@ -2,10 +2,12 @@
 <v-main>
   <v-container>
     <v-row
-      no-gutters
     >
       <v-col
-        md="8"
+        md="6"
+        offset-md="2"
+        sm="6"
+        offset-sm="2"
       >
         <v-select
           v-model="selectDevice"
@@ -26,7 +28,8 @@
       
 
       <v-col
-        md="4"
+        md="2"
+        sm="2"
       >
         <v-btn
           color="primary"
@@ -40,20 +43,9 @@
             mdi-refresh
           </v-icon>
         </v-btn>
-        <v-btn
-        color="secondary"
-        >EDIT
-        
-          <v-icon
-            right
-            dark
-          >
-            mdi-pencil-outline
-          </v-icon>
-
-        </v-btn>
       </v-col>
       
+      <div class="caption">Version: 0.1 Alpha</div>
     </v-row>
   </v-container>
   <v-progress-linear
@@ -107,19 +99,6 @@
       <Network/>
     </v-tab-item>
     
-    <v-tab-item
-      v-show="tab === 4"
-      transition="fade-transition"
-    >
-    content5
-    </v-tab-item>
-
-    <v-tab-item
-      v-show="tab === 5"
-      transition="fade-transition"
-    >
-    content6
-    </v-tab-item>
   </v-tabs-items>
   <v-overlay
     :absolute="this.$store.state.absolute"
@@ -144,7 +123,6 @@ import Status from './Status';
 import Packages from './Packages';
 import File from './File';
 import Network from './Network';
-
 
   export default {
     name: 'Main',
@@ -184,9 +162,7 @@ import Network from './Network';
     },
     mounted: async function(){
       this.$store.commit("show_loading")
-      this.$nextTick(() => {
-        this.$store.dispatch("GET_DEVCELIST")
-      })
+      this.$store.dispatch("GET_DEVCELIST")
     },
     computed: {
       ...mapState({})

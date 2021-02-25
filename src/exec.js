@@ -6,6 +6,14 @@ options: []
 */
 const util = require('util');
 const exec = util.promisify(window.require('child_process').exec);
+var { ipcRenderer } = window.require("electron");
+const current = ipcRenderer.sendSync('getPath')
+var bin = ""
+if(current == ""){
+    bin = current
+}else{
+    bin = current + "\\bin\\"
+}
 module.exports = async function (cmd, options) {
     let opArr = []
     opArr = options.map(function(e){
@@ -18,9 +26,10 @@ module.exports = async function (cmd, options) {
     })
     opArr.unshift(cmd)
     let fullCommand = opArr.join(' ')
-    console.log(fullCommand)
+
+    console.log(fullCommand )
     //console.log("exec-Start")
-    const result= await exec(fullCommand)
+    const result= await exec(fullCommand, {cwd: bin})
         /*
         if ( error instanceof Error || stderr.search("Command failed") || stdout.search("Command failed")) {
             throw "Command execution error"

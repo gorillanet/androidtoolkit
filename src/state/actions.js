@@ -1,7 +1,7 @@
 
 var commandProsessor = require('../command');
 var cp = new commandProsessor.Command()
-const sleep = msec => new Promise(resolve => setTimeout(resolve, msec));
+//const sleep = msec => new Promise(resolve => setTimeout(resolve, msec));
 export default {
     async GET_DEVCELIST({commit}){
       commit("empty_devices")
@@ -76,8 +76,10 @@ export default {
     },
     async RESET_ADB({commit, dispatch}){
       try {
+        /*
         await cp.killserver()
         await sleep(1000);
+        */
         await dispatch("GET_DEVCELIST")
         commit("hide_loading")
       } catch (error) {

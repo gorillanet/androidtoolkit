@@ -8,6 +8,9 @@ export default {
     set_devicelist(state, l){
       state.devices = l
     },
+    setpath(state, l){
+      state.exePath = l
+    },
     set_current_device(state, l){
       state.currentDevice = l
     },

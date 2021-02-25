@@ -1,9 +1,29 @@
 'use strict'
 
-import { shell, app, protocol, BrowserWindow } from 'electron'
+import { Menu, shell, app, protocol, BrowserWindow, ipcMain } from 'electron'
+import path from "path"
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
+const fs = require('fs');
 const isDevelopment = process.env.NODE_ENV !== 'production'
+const templateMenu = [
+  {
+      label: 'File',
+      submenu: [
+            {
+              label: 'Reload',
+              accelerator: 'CmdOrCtrl+R',
+              click(item, focusedWindow){
+                  if(focusedWindow) focusedWindow.reload();item;
+              },
+          },
+          {
+              label: 'Quit',
+              role: 'quit',
+          },
+      ]
+  },
+];
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
@@ -14,7 +34,7 @@ async function createWindow() {
   // Create the browser window.
   const win = new BrowserWindow({
     width: 800,
-    height: 800,
+    height: 980,
     minWidth: 800,
     webPreferences: {
       // Use pluginOptions.nodeIntegration, leave this alone
@@ -22,7 +42,20 @@ async function createWindow() {
       nodeIntegration: true,
     }
   })
-
+  ipcMain.on("open_screenshot", () => {
+    let home = app.getPath("home")
+    shell.openPath(home+'/screencapture.png')
+  });
+  ipcMain.on('getPath', (event) => {
+    var app_path = path.dirname(app.getPath('exe'));
+    if (fs.existsSync(app_path+"/bin")) {
+        console.log("use integrated adb.exe")
+        event.returnValue = path.dirname(app.getPath('exe'));
+    } else {
+        console.log("use system adb.exe")
+        event.returnValue = "";
+    }
+  })
   win.webContents.on('new-window', (event, url) => {
     event.preventDefault();
     shell.openExternal(url);
@@ -52,7 +85,8 @@ app.on('activate', () => {
   // dock icon is clicked and there are no other windows open.
   if (BrowserWindow.getAllWindows().length === 0) createWindow()
 })
-
+const menu = Menu.buildFromTemplate(templateMenu);
+Menu.setApplicationMenu(menu);
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
